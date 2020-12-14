@@ -1,10 +1,9 @@
 module Main where
 
-import           Command       (CommandResult (..), execute, isQuit, parse)
-import           Control.Monad
-import           Record        (readFromFile, writeToFile)
-import           System.IO
-import           TodoList      (TodoList, count)
+import           Command   (CommandResult (..), execute, parse)
+import           Record    (readFromFile, writeToFile)
+import           System.IO (hFlush, stdout)
+import           TodoList  (TodoList, count)
 
 main :: IO ()
 main = do
@@ -23,10 +22,10 @@ main = do
   -- let filename = head args
   let filename = "test.txt"
   ts <- readFromFile filename
-  (saveContent, ts') <- loop ts
-  when saveContent $ writeToFile filename ts'
+  ts' <- loop ts
+  writeToFile filename ts'
 
-loop :: TodoList -> IO (Bool, TodoList)
+loop :: TodoList -> IO TodoList
 loop s = do
   line <- prompt "> "
   let
@@ -35,8 +34,8 @@ loop s = do
   printResult result
   case result of
     OkContinue (_, s') -> loop s'
-    OkQuit _           -> return (True, s)
-    NotOk _            -> loop s
+    OkQuit     _       -> return s
+    NotOk      _       -> loop s
 
 prompt :: String -> IO String
 prompt s = do

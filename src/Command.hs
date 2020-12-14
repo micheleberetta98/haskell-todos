@@ -1,4 +1,4 @@
-module Command (Command, CommandResult(..), parse, execute, isQuit, isInvalid) where
+module Command (Command(..), CommandResult(..), parse, execute) where
 
 import           Control.Monad.State (runState)
 import           TodoList            (TodoList, empty)
@@ -15,9 +15,12 @@ data Command =
   | ListNotDone
   | Quit
   | Invalid String
-  deriving (Eq)
+  deriving (Show, Eq)
 
-data CommandResult = OkContinue (TodoList, TodoList) | OkQuit String | NotOk String
+data CommandResult = OkContinue (TodoList, TodoList)
+  | OkQuit String
+  | NotOk String
+  deriving (Show, Eq)
 
 ----------------------- FUNCTIONS
 parse :: String -> Command
@@ -41,13 +44,6 @@ split s = (cmd, arg)
 tail' :: String -> Maybe String
 tail' "" = Nothing
 tail' s  = Just $ tail s
-
-isQuit :: Command -> Bool
-isQuit = (==Quit)
-
-isInvalid :: Command -> Bool
-isInvalid (Invalid _) = True
-isInvalid _           = False
 
 execute :: Command -> TodoList -> CommandResult
 execute Quit        _ = OkQuit "Bye!"

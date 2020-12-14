@@ -1,6 +1,7 @@
 module Todo
   ( Todo
   , TodoStatus
+  , name
   , newTodo
   , setDone
   , setNotDone
@@ -11,7 +12,7 @@ import           Record (FromRecord (..), ToRecord (..))
 
 ----------------------- DATA
 data TodoStatus = Done | NotDone deriving (Eq)
-data Todo = Todo String TodoStatus
+data Todo = Todo String TodoStatus deriving (Eq)
 
 ----------------------- INSTANCES
 instance Show TodoStatus where
@@ -33,6 +34,9 @@ instance FromRecord Todo where
 newTodo :: String -> Todo
 newTodo name = Todo name NotDone
 
+name :: Todo -> String
+name (Todo n _) = n
+
 setDone :: Todo -> Todo
 setDone = updateState Done
 
@@ -40,7 +44,7 @@ setNotDone :: Todo -> Todo
 setNotDone = updateState NotDone
 
 updateState :: TodoStatus -> Todo -> Todo
-updateState s' (Todo n _) = Todo n s'
+updateState s (Todo n _) = Todo n s
 
 isDone :: Todo -> Bool
 isDone (Todo _ s) = s == Done

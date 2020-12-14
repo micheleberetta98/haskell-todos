@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module TodoList
   ( TodoList
   , empty
   , add
   , doTodo
+  , get
   , undoTodo
   , count
   , filter'
@@ -14,7 +13,7 @@ import           Record (FromRecord (..), ToRecord (..))
 import           Todo   (Todo, newTodo, setDone, setNotDone)
 
 ----------------------- DATA
-newtype TodoList = TodoList [Todo]
+newtype TodoList = TodoList [Todo] deriving (Eq)
 
 ----------------------- INSTANCES
 instance Show TodoList where
@@ -33,6 +32,11 @@ empty = TodoList []
 
 count :: TodoList -> Int
 count (TodoList tl) = length tl
+
+get :: Int -> TodoList -> Maybe Todo
+get i (TodoList tl)
+  | i >= length tl = Nothing
+  | otherwise     = Just $ tl !! i
 
 add :: String -> TodoList -> TodoList
 add n (TodoList tl) = TodoList (newTodo n : tl)

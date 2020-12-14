@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c551a9326c8851005c26742ce146c109f9cc8843e007617749925a2b67411ae7
+-- hash: d239ee04423b24b69da6a47a253ff328237878b8cbcf16018207fe6885b1461a
 
 name:           haskell-todos
 version:        0.1.0.0
@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Command
       Record
       Todo
       TodoList
@@ -62,5 +63,6 @@ test-suite haskell-todos-test
   build-depends:
       base >=4.7 && <5
     , haskell-todos
+    , hspec
     , mtl
   default-language: Haskell2010

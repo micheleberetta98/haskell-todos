@@ -1,1 +1,5 @@
-D;Prova
+0;D;Prova
+1;D;Prova1
+2;N;Prova2
+3;N;Prova3
+4;N;Mangiare

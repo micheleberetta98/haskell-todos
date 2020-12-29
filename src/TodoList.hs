@@ -8,7 +8,7 @@ module TodoList
   , get
   , undoTodo
   , count
-  , filter'
+  , filterTodos
 ) where
 
 import           Data.Bifunctor (bimap, second)
@@ -52,13 +52,10 @@ add :: String -> TodoList -> TodoList
 add n tl = M.insert (count tl) (newTodo n) tl
 
 doTodo :: Int -> TodoList -> TodoList
-doTodo = applyToTodo setDone
+doTodo = M.adjust setDone
 
 undoTodo :: Int -> TodoList -> TodoList
-undoTodo = applyToTodo setNotDone
+undoTodo = M.adjust setNotDone
 
-applyToTodo :: (Todo -> Todo) -> Int -> TodoList -> TodoList
-applyToTodo = M.adjust
-
-filter' :: (Todo -> Bool) -> TodoList -> TodoList
-filter' = M.filter
+filterTodos :: (Todo -> Bool) -> TodoList -> TodoList
+filterTodos = M.filter

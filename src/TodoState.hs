@@ -23,5 +23,5 @@ update (UnsetTodoDone i) = modify $ TL.undoTodo i
 
 list :: ListAction -> TodoState TL.TodoList
 list ListAllTodos     = get
-list ListDoneTodos    = gets $ TL.filter' isDone
-list ListNotDoneTodos = gets $ TL.filter' (not . isDone)
+list ListDoneTodos    = gets $ TL.filterTodos isDone
+list ListNotDoneTodos = gets $ TL.filterTodos (not . isDone)

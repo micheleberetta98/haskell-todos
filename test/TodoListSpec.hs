@@ -56,13 +56,13 @@ todoListTests = describe "TodoList" $ do
         l' = undoTodo 100 l
       l `shouldBe` l'
 
-  describe "filter'" $ do
+  describe "filterTodos" $ do
     let
       l = add "0" (add "1" (add "2" empty))
       l' = doTodo 1 l
     it "should filter done todos" $ do
-      let filtered = filter' Todo.isDone l'
+      let filtered = filterTodos Todo.isDone l'
       count filtered `shouldBe` 1
     it "should filter not done todos" $ do
-      let filtered = filter' (not . Todo.isDone) l'
+      let filtered = filterTodos (not . Todo.isDone) l'
       count filtered `shouldBe` 2

@@ -8,27 +8,28 @@ module Todo
   , isDone
   ) where
 
+import           Prettify (Pretty (..))
 import           Record (FromRecord (..), ToRecord (..))
 
 ----------------------- DATA
-data TodoStatus = Done | NotDone deriving (Eq)
-data Todo = Todo String TodoStatus deriving (Eq)
+data TodoStatus = Done | NotDone deriving (Show, Eq)
+data Todo = Todo String TodoStatus deriving (Show, Eq)
 
 ----------------------- INSTANCES
-instance Show TodoStatus where
-  show Done    = "✅"
-  show NotDone = "❌"
+instance Pretty TodoStatus where
+  prettify Done    = "✅"
+  prettify NotDone = "❌"
 
-instance Show Todo where
-  show (Todo n s) = show s ++ " " ++ n
+instance Pretty Todo where
+  prettify (Todo n s) = prettify s ++ " " ++ n
 
 instance ToRecord Todo where
-  toRecord (Todo n Done)    = "D " ++ n
-  toRecord (Todo n NotDone) = "N " ++ n
+  toRecord (Todo n Done)    = "D;" ++ n
+  toRecord (Todo n NotDone) = "N;" ++ n
 
 instance FromRecord Todo where
-  fromRecord ('D':' ':n) = Todo n Done
-  fromRecord ('N':' ':n) = Todo n NotDone
+  fromRecord ('D':';':n) = Todo n Done
+  fromRecord ('N':';':n) = Todo n NotDone
 
 ----------------------- FUNCTIONS
 newTodo :: String -> Todo

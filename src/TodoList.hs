@@ -9,16 +9,17 @@ module TodoList
   , filter'
 ) where
 
+import           Prettify (Pretty (..))
 import           Record (FromRecord (..), ToRecord (..))
 import           Todo   (Todo, newTodo, setDone, setNotDone)
 
 ----------------------- DATA
-newtype TodoList = TodoList [Todo] deriving (Eq)
+newtype TodoList = TodoList [Todo] deriving (Show, Eq)
 
 ----------------------- INSTANCES
-instance Show TodoList where
-  show (TodoList tl) = unlines $ zipWith show' [0..] tl
-    where show' i t = show i ++ ". " ++ show t
+instance Pretty TodoList where
+  prettify (TodoList tl) = unlines $ zipWith prettify' [0..] tl
+    where prettify' i t = show i ++ ". " ++ prettify t
 
 instance ToRecord TodoList where
   toRecord (TodoList tl) = unlines $ map toRecord tl

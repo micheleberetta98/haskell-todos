@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4229b297b84953b80b26cee4343f39329c9b55f1ab7665f83d410833b039fbe2
+-- hash: 5262d77c72f063858165a25b3c5d72c4d62050a3fabce7f57cbdb4129869e93e
 
 name:           haskell-todos
 version:        0.1.0.0
@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Command
+      Prettify
       Record
       Todo
       TodoList

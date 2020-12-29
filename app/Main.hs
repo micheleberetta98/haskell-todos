@@ -1,6 +1,7 @@
 module Main where
 
 import           Command   (CommandResult (..), execute, parse)
+import           Prettify  (prettify)
 import           Record    (readFromFile, writeToFile)
 import           System.IO (hFlush, stdout)
 import           TodoList  (TodoList, count)
@@ -11,8 +12,8 @@ main = do
   putStrLn "==================================="
   putStrLn "Command:"
   putStrLn "  + [content]    Add new todo"
-  putStrLn "  d [i]          Set todo done"
-  putStrLn "  u [i]          Set todo undone"
+  putStrLn "  do [i]         Set todo done"
+  putStrLn "  undo [i]       Set todo undone"
   putStrLn "  ls             List all todos"
   putStrLn "  ld             List done todos"
   putStrLn "  ln             List not done todos"
@@ -48,4 +49,4 @@ printResult (OkQuit msg) = putStrLn msg
 printResult (NotOk msg) = putStrLn msg
 printResult (OkContinue (tl, _))
   | count tl == 0 = return ()
-  | otherwise     = print tl
+  | otherwise     = putStrLn (prettify tl)

@@ -33,10 +33,8 @@ instance ToRecord TodoList where
 instance FromRecord TodoList where
   fromRecord = M.fromList . map fromRecord' . filter (/="") . lines
     where
-      fromRecord' = second fromRecord . parts
-
-      parts :: String -> (Int, String)
-      parts s = bimap read tail $ break (==';') s
+      fromRecord' :: String -> (Int, Todo)
+      fromRecord' = bimap read (fromRecord . tail) . break (==';')
 
 ----------------------- FUNCTIONS
 empty :: TodoList

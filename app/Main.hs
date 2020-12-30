@@ -1,14 +1,15 @@
 module Main where
 
-import           Command   (CommandResult (..), execute, parse)
-import           Prettify  (prettify)
-import           Record    (readFromFile, writeToFile)
-import           System.IO (hFlush, stdout)
-import           TodoList  (TodoList, count)
+import           Command            (CommandResult (..), execute, parse)
+import           Prettify           (prettify)
+import           Record             (readFromFile, writeToFile)
+import           System.Environment (getArgs)
+import           System.IO          (hFlush, stdout)
+import           TodoList           (TodoList, count)
 
 main :: IO ()
 main = do
-  -- args <- getArgs
+  args <- getArgs
   putStrLn "==================================="
   putStrLn "Command:"
   putStrLn "  + [content]    Add new todo"
@@ -20,8 +21,7 @@ main = do
   putStrLn "  q              Quit"
   putStrLn "==================================="
 
-  -- let filename = head args
-  let filename = "test.txt"
+  let filename = head args
   ts <- readFromFile filename
   ts' <- loop ts
   writeToFile filename ts'

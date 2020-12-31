@@ -23,9 +23,7 @@ main = do
   putStrLn "==================================="
 
   let filename = head args
-  ts <- readFromFile filename
-  ts' <- loop (fromMaybe empty ts)
-  writeToFile filename ts'
+  readFromFile filename >>= loop . fromMaybe empty >>= writeToFile filename
 
 loop :: TodoList -> IO TodoList
 loop s = do
@@ -38,10 +36,7 @@ loop s = do
     NotOk      _       -> loop s
 
 prompt :: String -> IO String
-prompt s = do
-  putStr s
-  hFlush stdout
-  getLine
+prompt s = putStr s >> hFlush stdout >> getLine
 
 printResult :: CommandResult -> IO ()
 printResult (OkQuit msg) = putStrLn msg

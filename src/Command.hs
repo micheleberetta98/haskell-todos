@@ -1,7 +1,7 @@
 module Command (Command(..), CommandResult(..), parse, execute) where
 
 import           Control.Monad.State (runState)
-import           Data.Bifunctor      (Bifunctor (second))
+import           StringUtils         (breakOn)
 import           TodoList            (TodoList, empty)
 import           TodoState           (ListAction (..), TodoState,
                                       UpdateAction (..), list, update)
@@ -25,7 +25,7 @@ data CommandResult = OkContinue (TodoList, TodoList)
 
 ----------------------- FUNCTIONS
 parse :: String -> Command
-parse = uncurry parse' . second tail' . break (==' ')
+parse = uncurry parse' . breakOn ' '
   where
     parse' "+"    (Just name) = Add name
     parse' "do"   (Just int)  = Do (read int)
@@ -35,9 +35,6 @@ parse = uncurry parse' . second tail' . break (==' ')
     parse' "ln"   _           = ListNotDone
     parse' "q"    _           = Quit
     parse' cmd    _           = Invalid cmd
-
-    tail' "" = Nothing
-    tail' s  = Just $ tail s
 
 execute :: Command -> TodoList -> CommandResult
 execute Quit        _ = OkQuit "Bye!"

@@ -30,9 +30,7 @@ main = do
 loop :: TodoList -> IO TodoList
 loop s = do
   line <- prompt "> "
-  let
-    cmd = parse line
-    result = execute cmd s
+  let result = execute (parse line) s
   printResult result
   case result of
     OkContinue (_, s') -> loop s'

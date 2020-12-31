@@ -13,6 +13,7 @@ module TodoList
 
 import           Data.Bifunctor (bimap, second)
 import qualified Data.Map       as M
+import           Data.Maybe     (mapMaybe)
 import           Prettify       (Pretty (..))
 import           Record         (FromRecord (..), ToRecord (..))
 import           Todo           (Todo, newTodo, setDone, setNotDone)
@@ -30,11 +31,18 @@ instance ToRecord TodoList where
     where
       toRecord' (i, t) = show i ++ ";" ++ toRecord t
 
-instance FromRecord TodoList where
-  fromRecord = M.fromList . map fromRecord' . filter (/="") . lines
+instance FromRecord (Int, Todo) where
+  fromRecord s = withIndex i <$> t
     where
-      fromRecord' :: String -> (Int, Todo)
-      fromRecord' = bimap read (fromRecord . tail) . break (==';')
+      (i, t) = bimap read (fromRecord . tail') $ break (==';') s
+
+      withIndex i t = (i, t)
+
+      tail' "" = ""
+      tail' s  = tail s
+
+instance FromRecord TodoList where
+  fromRecord = Just . M.fromList . mapMaybe fromRecord . lines
 
 ----------------------- FUNCTIONS
 empty :: TodoList

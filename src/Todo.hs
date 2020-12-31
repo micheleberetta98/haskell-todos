@@ -25,8 +25,9 @@ instance ToRecord Todo where
   toRecord (Todo n NotDone) = "N;" ++ n
 
 instance FromRecord Todo where
-  fromRecord ('D':';':n) = Todo n Done
-  fromRecord ('N':';':n) = Todo n NotDone
+  fromRecord ('D':';':n) = Just (Todo n Done)
+  fromRecord ('N':';':n) = Just (Todo n NotDone)
+  fromRecord _           = Nothing
 
 ----------------------- FUNCTIONS
 newTodo :: String -> Todo

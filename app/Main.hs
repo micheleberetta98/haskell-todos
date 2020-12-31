@@ -1,11 +1,12 @@
 module Main where
 
 import           Command            (CommandResult (..), execute, parse)
+import           Data.Maybe         (fromMaybe)
 import           Prettify           (prettify)
 import           Record             (readFromFile, writeToFile)
 import           System.Environment (getArgs)
 import           System.IO          (hFlush, stdout)
-import           TodoList           (TodoList, count)
+import           TodoList           (TodoList, count, empty)
 
 main :: IO ()
 main = do
@@ -23,7 +24,7 @@ main = do
 
   let filename = head args
   ts <- readFromFile filename
-  ts' <- loop ts
+  ts' <- loop (fromMaybe empty ts)
   writeToFile filename ts'
 
 loop :: TodoList -> IO TodoList

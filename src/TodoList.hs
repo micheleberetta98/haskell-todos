@@ -28,16 +28,13 @@ instance Pretty TodoList where
 
 instance ToRecord TodoList where
   toRecord = unlines . map toRecord' . M.assocs
-    where
-      toRecord' (i, t) = show i ++ ";" ++ toRecord t
+    where toRecord' (i, t) = show i ++ ";" ++ toRecord t
 
 instance FromRecord (Int, Todo) where
   fromRecord s = withIndex i <$> t
     where
       (i, t) = bimap read (fromRecord . tail') $ break (==';') s
-
       withIndex i t = (i, t)
-
       tail' "" = ""
       tail' s  = tail s
 

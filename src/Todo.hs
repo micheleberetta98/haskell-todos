@@ -8,10 +8,9 @@ module Todo
   , isDone
   ) where
 
-import           TodoStatus (TodoStatus (..))
-
 import           Prettify   (Pretty (..))
 import           Record     (FromRecord (..), ToRecord (..))
+import           TodoStatus (TodoStatus (..))
 
 ----------------------- DATA
 data Todo = Todo String TodoStatus deriving (Show, Eq)

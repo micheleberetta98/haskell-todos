@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e291b6d0be4f11684ec4da9a9e27b2bbb09099f45037e6eb3a885c6df78cb102
+-- hash: a412206fa6012dda09933f9d895c1ca23cf130706294b5acfbdaf7328fca57b0
 
 name:           haskell-todos
 version:        0.1.0.0
@@ -40,6 +40,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , directory
     , mtl
   default-language: Haskell2010
 
@@ -53,6 +54,7 @@ executable haskell-todos-exe
   build-depends:
       base >=4.7 && <5
     , containers
+    , directory
     , haskell-todos
     , mtl
   default-language: Haskell2010
@@ -71,6 +73,7 @@ test-suite haskell-todos-test
   build-depends:
       base >=4.7 && <5
     , containers
+    , directory
     , haskell-todos
     , hspec
     , mtl
